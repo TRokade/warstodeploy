@@ -18,6 +18,9 @@ const BannerSection = React.memo(() => (
   </div>
 ));
 
+
+BannerSection.displayName = "BannerSection";
+
 const Collections = React.memo(() => {
   const dispatch = useDispatch();
   const data = useSelector(

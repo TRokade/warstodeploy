@@ -597,7 +597,7 @@ function ProductPage({ params }) {
                         Bedroom
                       </option>
                       <option value="Living room">Living room</option>
-                      <option value="Children's room">Children's room</option>
+                      <option value="Children's room">{`Children's room`}</option>
                       <option value="Home office">Home office</option>
                       <option value="Dining room">Dining room</option>
                       <option value="Bathroom">Bathroom</option>

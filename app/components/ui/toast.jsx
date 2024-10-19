@@ -39,7 +39,7 @@ const ToastContainer = ({ toasts }) => (
   </div>
 );
 
-const Toast = ({ id, title, description, variant, duration = 3000 }) => {
+export const Toast = ({ id, title, description, variant, duration = 3000 }) => {
   const { removeToast } = useToast();
 
   useEffect(() => {

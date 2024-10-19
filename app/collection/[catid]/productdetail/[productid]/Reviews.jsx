@@ -104,6 +104,7 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                 {item.images.map((img) => {
                   return (
                     <img
+                      key={img}
                       src={`http://localhost:5000/${img.url}`}
                       alt="Image 1"
                       className="w-20 h-20 object-cover rounded"

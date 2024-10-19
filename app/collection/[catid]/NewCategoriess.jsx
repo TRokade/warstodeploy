@@ -66,11 +66,11 @@ const NewCategoriess = () => {
 
     collectionMenu.map((collection) => {
       return (
-        <div>
+        <div key={collection?.name}>
           {collection?.name !== null ? (
             <ToggleButton
               value={collection?.name}
-              key={collection?.name}
+              
               sx={{ width: "auto", height: "auto" }}
             >
               <div className="flex items-center">

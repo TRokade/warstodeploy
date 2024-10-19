@@ -204,7 +204,7 @@ const SignIn = () => {
               </Button>
             </div>
             <p className="text-center mt-2 text-sm text-gray-600 w-full">
-              Don't have an account?{" "}
+              {`Don't have an account?`}
               <Link
                 href="/signup"
                 className="font-medium text-pink-600 hover:text-pink-500 transition duration-150 ease-in-out"

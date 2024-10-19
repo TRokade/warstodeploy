@@ -52,7 +52,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
       </Button>
 
       {getPageNumbers().map((number, index) => (
-        <React.Fragment key={index}>
+        <div key={index}>
           {number === "..." ? (
             <span className="px-2">
               <MoreHorizontal className="h-4 w-4 text-gray-400" />
@@ -71,7 +71,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
               {number}
             </Button>
           )}
-        </React.Fragment>
+        </div>
       ))}
 
       <Button

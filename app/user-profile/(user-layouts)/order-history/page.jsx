@@ -51,7 +51,7 @@ const OrderHistory = () => {
           ) : (
             orders.map((item) => {
               return (
-                <div key={item._id}>
+                <div key={item?._id}>
                   <div className="bg-gray-100 mt-5 flex flex-col lg:flex-row  text-sm px-5 py-5 rounded-md justify-between">
                     <div className="flex justify-between lg:flex-col py-1 border-b-2 lg:border-none">
                       <p className="font-bold">Date placed</p>

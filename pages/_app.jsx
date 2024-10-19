@@ -5,6 +5,7 @@ import api from "../utils/api";
 // import "../styles/globals.css";
 import { useEffect } from "react";
 import { store } from "@/store/store";
+import { Provider } from "react-redux";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

@@ -22,7 +22,6 @@ import {
   removeWishlist,
 } from "@/store/wishlistSlice";
 import { useAuth } from "@/context/AuthContext";
-import Image from "next/image";
 
 function ProductCard({ product, loading, params }) {
   const dispatch = useDispatch();

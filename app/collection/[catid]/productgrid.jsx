@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import testImg from "@/src/images/111.JPG";
+import testImg from "../../../src/images/111.JPG";
 
 import {
   Card,

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import testImg from "../../../src/images/111.JPG";
+import FavoriteIcon from "@mui/icons-material/Favorite"
 
 import {
   Card,
@@ -101,7 +100,7 @@ function ProductCard({ product, loading, params }) {
         <Card className="w-full shadow-lg relative">
           <Link href={`/collection/${params}/productdetail/${product._id}`}>
             <CardHeader floated={false} color="blue-gray">
-              <Image src={testImg} alt={product.name} />
+              <img src="https://m.media-amazon.com/images/I/81nAtR%20GpmL.jpg" alt={product.name} />
             </CardHeader>
           </Link>
 

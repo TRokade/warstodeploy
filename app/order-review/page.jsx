@@ -15,7 +15,6 @@ import {
 } from "@/app/components/ui/select";
 // import { StarIcon } from "@heroicons/react/solid";
 import api from "@/utils/api";
-import { toast } from "@/app/components/ui/toast";
 // import { StarsIcon } from "lucide-react";
 
 const StarIcon = ({ filled, onClick, onMouseEnter, onMouseLeave }) => (
@@ -73,11 +72,7 @@ const OrderReview = () => {
       initializeReviews(response.data.items);
     } catch (error) {
       console.error("Error fetching order details:", error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch order details. Please try again.",
-        variant: "destructive",
-      });
+      
     }
   };
 
@@ -111,11 +106,7 @@ const OrderReview = () => {
   const handleImageUpload = (productId, event) => {
     const files = Array.from(event.target.files);
     if (files.length > 5) {
-      toast({
-        title: "Error",
-        description: "You can only upload up to 5 images.",
-        variant: "destructive",
-      });
+      
       return;
     }
 

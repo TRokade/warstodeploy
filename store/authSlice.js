@@ -19,8 +19,6 @@ export const signIn = createAsyncThunk(
   }
 );
 
-
-
 export const signUp = createAsyncThunk(
   "auth/signUp",
   async ({ name, email, password, mobileNumber }, { rejectWithValue }) => {
@@ -56,23 +54,21 @@ export const loadUser = createAsyncThunk(
   }
 );
 
-
 export const setUser = createAsyncThunk(
-  'auth/setUser',
+  "auth/setUser",
   async (token, { dispatch }) => {
-      try {
-          const response = await api.get('/auth/user', {
-              headers: { Authorization: `Bearer ${token}` }
-          });
-          localStorage.setItem('token', token);
-          return response.data;
-      } catch (error) {
-          console.error('Error setting user:', error);
-          throw error;
-      }
+    try {
+      const response = await api.get("/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      localStorage.setItem("token", token);
+      return response.data;
+    } catch (error) {
+      console.error("Error setting user:", error);
+      throw error;
+    }
   }
 );
-
 
 export const checkTokenValidity = createAsyncThunk(
   "auth/checkTokenValidity",
@@ -139,13 +135,15 @@ export const Editaddress = createAsyncThunk(
   }
 );
 
+const guestID = localStorage.getItem("guestId");
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
     loading: false,
     error: null,
-    guestId: localStorage.getItem("guestId") || null,
+    guestId: guestID || null,
   },
   reducers: {
     setUser: (state, action) => {

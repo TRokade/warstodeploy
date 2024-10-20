@@ -18,7 +18,6 @@ const BannerSection = React.memo(() => (
   </div>
 ));
 
-
 BannerSection.displayName = "BannerSection";
 
 const Collections = React.memo(() => {
@@ -70,5 +69,7 @@ const Collections = React.memo(() => {
     </div>
   );
 });
+
+Collections.displayName = "Collections";
 
 export default Collections;

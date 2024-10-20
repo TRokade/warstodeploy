@@ -6,7 +6,7 @@ const AboutUs = () => {
       <div className="mt-28 md:mt-56 lg:mt-40 mb-0 text-center">
         {/* <h3 className="mb-5 text-3xl font-medium">About us</h3> */}
       </div>
-      <div className="flex flex-col pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-40">
+      <div className="flex flex-col pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-10 xl:px-40">
         <div
           className="relative h-[350px] lg:h-[500px] w-full bg-local lg:bg-fixed  bg-cover lg:bg-contain md:bg-contain bg-no-repeat lg:bg-no-repeat	"
           style={{
@@ -38,7 +38,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="flex flex-col-reverse pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-40">
+      <div className="flex flex-col-reverse pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-10 xl:px-40">
         <div className="w-full">
           <div className="px-5 py-10 lg:px-10 lg:py-20 ">
             <h2 className="mb-4 text-xl text-black md:text-2xl lg:text-3xl">
@@ -70,7 +70,7 @@ const AboutUs = () => {
         ></div>
       </div>
 
-      <div className="flex flex-col pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-40">
+      <div className="flex flex-col pb-0 md:pb-28 md:flex-row lg:flex-row  justify-center px-5 lg:px-10 xl:px-40">
         <div
           className="relative h-[350px] lg:h-[500px] bg-local lg:bg-fixed w-full bg-cover lg:bg-contain md:bg-contain bg-no-repeat lg:bg-repeat"
           style={{
@@ -103,7 +103,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="flex flex-col-reverse md:flex-row lg:flex-row  justify-center px-5 lg:px-40">
+      <div className="flex flex-col-reverse md:flex-row lg:flex-row  justify-center px-5 lg:px-10 xl:px-40">
         <div className="w-full">
           <div className="px-5 py-10 lg:px-10 lg:py-20 ">
             <h2 className="mb-4 text-xl text-black md:text-2xl lg:text-3xl">
@@ -134,7 +134,7 @@ const AboutUs = () => {
         ></div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 lg:my-20 my-0 text-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 px-5 lg:grid-cols-4 lg:my-20 my-0 text-center ">
         <div className="flex flex-col my-5 lg:my-0 justify-center  items-center">
           <div className="my-2">
             <svg

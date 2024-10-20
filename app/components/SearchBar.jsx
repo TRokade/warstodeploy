@@ -66,7 +66,7 @@ const SearchBar = () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder="Search..."
-          className={`pl-10 text-sm border-gray-500	 pr-4 py-1 lg:py-2.5 w-full rounded-full border shadow-sm focus:outline-none transition-all duration-300 `}
+          className={`pl-10 text-sm border-gray-500	 pr-4 py-1.5 xl:py-2.5 w-full rounded-full border shadow-sm focus:outline-none transition-all duration-300 `}
         />
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <IoSearch className="text-[#ef4665ac]" />

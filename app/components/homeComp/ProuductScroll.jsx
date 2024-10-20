@@ -21,7 +21,7 @@ const ProductScroll = () => {
       ];
 
   return (
-    <div className="py-20 mx-auto sm:max-w-xl md:max-w-full  lg:px-32 lg:py-16 ">
+    <div className="py-20 px-5 mx-auto sm:max-w-xl md:max-w-full  xl:px-32 lg:py-16 ">
       <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
         <h2 className="max-w-lg mb-6 font-sans text-2xl md:text-3xl font-bold leading-none tracking-tight text-gray-900 md:mx-auto">
           
@@ -32,7 +32,7 @@ const ProductScroll = () => {
         Discover innovative modular furniture designs that enhance your space with style and functionality.
         </p>
       </div>
-      <div className="relative sm:mx-0">
+      <div className="relative w-full sm:mx-0">
         {/* Left Arrow */}
         <div
           className="absolute opacity-40 lg:opacity-100 top-1/2 lg:left-[-9px] transform -translate-y-1/2 left-0 bg-gray-900 text-white w-10 h-10 rounded-full flex justify-center items-center cursor-pointer z-10"
@@ -50,7 +50,7 @@ const ProductScroll = () => {
             return (
               <div
                 key={item}
-                className="inline-flex flex-col transition-opacity duration-300 ease-in-out items-center group p_container snap-center mx-5 flex-shrink-0 relative"
+                className="inline-flex flex-col transition-opacity duration-300 ease-in-out items-center group p_container snap-center mx-6 flex-shrink-0 relative"
               >
                 <img src={item} className="productimage w-80 lg:w-56 h-72" alt={``} />
                 <div className="flex group-hover:opacity-100 transition-opacity duration-300 ease-in-out lg:opacity-0 absolute top-48">

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from "react";
 
 const ContactUs = () => {
@@ -21,7 +21,7 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     setFormData({
       fname: "",
       lname: "",
@@ -33,30 +33,30 @@ const ContactUs = () => {
   };
   return (
     <>
-      <div className="px-0 lg:px-24 pt-24">
-        <div className="w-full  mt-16 mb-16 lg:mb-20 flex justify-center">
+      <div className="px-0 lg:px-24 pt-20">
+        <div className="w-full  mt-10 md:mt-16 mb-16 lg:mb-20 flex justify-center">
           <div className="text-center max-w-5xl">
             <h3 className="mb-4 text-3xl font-medium">We Are Here To Help</h3>
-            <p className="text-lg w-full lg:w-[700px]  px-4">
+            <p className="md:text-lg text-md w-full md:w-[700px]  px-4">
               {`You have questions, we have answers.Don't see your Q&A below? Just
-              ${<span className="font-bold">Contact us</span>} and we'll get you an
+              contact us and we'll get you an
               answer ASAP.`}
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 xl:grid-cols-2">
           <div className="px-12 shadow-lg ">
             <h3 className="mb-4 text-2xl font-medium">Contact information</h3>
             <form
               onSubmit={handleSubmit}
               className="text-center  flex-col justify-center"
             >
-              <div className="flex lg:flex-row flex-col justify-center">
+              <div className="flex md:flex-row flex-col justify-center">
                 <div className="w-full my-0 lg:mb-8 pe-3">
-                  <div className="relative w-full my-2 lg:my-0 min-w-[200px] h-10">
+                  <div className="relative my-2 lg:my-0 w-full min-w-[200px] h-10">
                     <input
-                      className="peer  h-full w-full border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100"
+                      className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
                       placeholder=" "
                       name="fname"
                       onChange={handleChange}
@@ -80,7 +80,7 @@ const ContactUs = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex lg:flex-row flex-col justify-center">
+              <div className="flex md:flex-row flex-col justify-center">
                 <div className="w-full my-0 lg:mb-8 pe-3">
                   <div className="relative my-2 lg:my-0 w-full min-w-[200px] h-10">
                     <input
@@ -150,7 +150,7 @@ const ContactUs = () => {
             </form>
           </div>
           <div>
-            <div className="w-full text-center lg:text-start lg:w-[600px] p-2 bg-gray-200">
+            <div className="w-full text-center xl:text-start xl:w-[600px] p-2 bg-gray-200">
               <h2 className="font-bold">Mumbai</h2>
               <p>
                 693/1 ITPL, main road, Whitefield, Hoodi <br />
@@ -161,7 +161,7 @@ const ContactUs = () => {
             <div>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.59294080556!2d72.8882413749786!3d19.125505482089313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c91d7ffbbf0d%3A0x6de75142cec26203!2sWeWork%20Chromium!5e0!3m2!1sen!2sin!4v1724674496855!5m2!1sen!2sin"
-                className="w-full lg:w-[600px] h-[350px]"
+                className="w-full xl:w-[600px] h-[350px]"
               ></iframe>
             </div>
           </div>

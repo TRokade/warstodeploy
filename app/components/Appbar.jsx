@@ -344,7 +344,7 @@ const Appbar = () => {
             )} */}
             {/* <Link href={"/cart"}> */}
             <div onClick={openCartDrawer} className="relative  cursor-pointer">
-              <ShoppingCartOutlinedIcon className="text-2xl me-0 xxs:ms-2" />
+              <ShoppingCartOutlinedIcon className="text-2xl me-0 xxs:mx-2" />
 
               {items?.length !== 0 && items?.length !== undefined ? (
                 <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-[#ef4665] border-2 border-white rounded-full bottom-3 left-5 dark:border-gray-900">
@@ -357,7 +357,7 @@ const Appbar = () => {
             {/* </Link> */}
             <CiMenuFries
               onClick={openDrawer}
-              className="text-xl block lg:hidden  xxs:ms-2"
+              className="text-xl block xl:hidden  xxs:ms-2"
             />
           </div>
         </div>

@@ -130,13 +130,13 @@ export default function MeasurementSlotSelector({ onSlotSelect }) {
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {slotsForSelectedDate.map((slot, index) => (
             <Button
               key={index}
               onClick={() => handleSlotSelect(slot)}
               variant={selectedSlot === slot ? "secondary" : "outline"}
-              className={`text-left p-4 h-auto rounded-md	items-center border-slate-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] box-border text-[#1A202C] inline-flex text-base font-bold justify-center leading-6 break-words no-underline w-auto cursor-pointer select-none touch-manipulation border-0 border-solid;	 ${
+              className={`text-left w-full p-4 h-auto rounded-md	items-center border-slate-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] box-border text-[#1A202C] inline-flex text-base font-bold justify-center leading-6 break-words no-underline lg:w-auto cursor-pointer select-none touch-manipulation border-0 border-solid;	 ${
                 selectedSlot === slot ? "bg-green-200	  text-black " : ""
               }`}
               

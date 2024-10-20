@@ -82,7 +82,7 @@ const CategoriesTabs = () => {
             </p>
           </div>
         </div>
-        <div className="px-5 md:px-5 w-full xl:px-36">
+        <div className="px-5 md:px-5 w-full lg:px-10 xl:px-36">
           <Tabs value={activeTab}>
             <TabsHeader
               className="rounded-none overflow-auto border-b border-blue-gray-50 bg-whie p-0"
@@ -109,7 +109,7 @@ const CategoriesTabs = () => {
                 <TabPanel
                   key={desc}
                   value={value}
-                  className="px-0 pt-3 pb-0 h-[400px] lg:h-[600px]"
+                  className="px-0 pt-3 pb-0 h-[400px] lg:h-[500px] xl:h-[600px]"
                 >
                   <div className="relative h-full">
                     <img

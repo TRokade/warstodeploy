@@ -9,7 +9,12 @@ import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/app/components/ui/radio-group";
 import { Checkbox } from "@/app/components/ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/app/components/ui/card";
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,7 +28,7 @@ import MeasurementSlotSelector from "@/app/components/MeasurementSlotSelector";
 
 const Checkout = () => {
   const { user, loading: userLoading } = useSelector((state) => state.auth);
-  
+
   const [cart, setCart] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
     street: "",
@@ -373,8 +378,8 @@ const Checkout = () => {
     </Card>
   );
   return (
-    <div className="container mx-auto px-4 my-24 py-8 max-w-6xl">
-      <div className="flex flex-col lg:flex-row gap-8">
+    <div className="container mx-auto px-4 mt-24 py-8 max-w-6xl">
+      <div className="flex flex-col-reverse lg:flex-row gap-8">
         <div className="lg:w-2/3 space-y-8">
           {step === 1 && (
             <>
@@ -414,9 +419,14 @@ const Checkout = () => {
                   )}
                 </CardContent>
               </Card>
-              <Button onClick={() => setStep(2)} className="w-full">
-                Continue to Delivery <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="flex items-center justify-center">
+                <Button
+                  onClick={() => setStep(2)}
+                  className="flex bg-black px-3 py-2 rounded-md text-white items-center"
+                >
+                  Continue to Delivery <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </>
           )}
           {step === 2 && (
@@ -503,7 +513,11 @@ const Checkout = () => {
             </>
           )}
         </div>
-        <div className="lg:w-1/3">{renderOrderSummary()}</div>
+        {step == 3 ? (
+          ""
+        ) : (
+          <div className="lg:w-1/3">{renderOrderSummary()}</div>
+        )}
       </div>
     </div>
   );

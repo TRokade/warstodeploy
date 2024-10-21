@@ -60,7 +60,7 @@ const SignUp = () => {
   };
 
   const handleGoogleSignUp = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = "https://warsto.onrender.com/api/auth/google";
   };
 
   return (

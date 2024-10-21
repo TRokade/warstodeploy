@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { Textarea } from "@/app/components/ui/textarea";
@@ -72,7 +77,6 @@ const OrderReview = () => {
       initializeReviews(response.data.items);
     } catch (error) {
       console.error("Error fetching order details:", error);
-      
     }
   };
 
@@ -106,7 +110,6 @@ const OrderReview = () => {
   const handleImageUpload = (productId, event) => {
     const files = Array.from(event.target.files);
     if (files.length > 5) {
-      
       return;
     }
 
@@ -183,114 +186,119 @@ const OrderReview = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 pt-32 md:pt-36 max-w-4xl">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Order Review</h1>
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="text-xl">Order #{order._id}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <p>
-              <span className="font-semibold">Order Date:</span>{" "}
-              {new Date(order.createdAt).toLocaleDateString()}
-            </p>
-            <p>
-              <span className="font-semibold">Total:</span> ₹
-              {order.total.toFixed(2)}
-            </p>
-            <p>
-              <span className="font-semibold">Status:</span> {order.status}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-6 text-center">
-        Product Reviews
-      </h2>
-      {order.items.map((item) => (
-        <Card key={item.product.toString()} className="mb-8">
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="container mx-auto p-4 pt-32 md:pt-36 max-w-4xl">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+          Order Review
+        </h1>
+        <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-xl">{item.productName}</CardTitle>
+            <CardTitle className="text-xl">Order #{order._id}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-2 gap-4">
               <p>
-                <span className="font-semibold">Quantity:</span> {item.quantity}
+                <span className="font-semibold">Order Date:</span>{" "}
+                {new Date(order.createdAt).toLocaleDateString()}
               </p>
               <p>
-                <span className="font-semibold">Price:</span> ₹
-                {item.price.toFixed(2)}
+                <span className="font-semibold">Total:</span> ₹
+                {order.total.toFixed(2)}
               </p>
-            </div>
-            <div className="mt-6">
-              <div className="flex items-center mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <StarIcon
-                    key={star}
-                    filled={
-                      star <=
-                      (hoveredRating[item.product.toString()] ||
-                        reviews[item.product.toString()]?.rating ||
-                        0)
-                    }
-                    onClick={() =>
-                      handleReviewChange(
-                        item.product.toString(),
-                        "rating",
-                        star
-                      )
-                    }
-                    onMouseEnter={() =>
-                      handleStarHover(item.product.toString(), star)
-                    }
-                    onMouseLeave={() =>
-                      handleStarLeave(item.product.toString())
-                    }
-                  />
-                ))}
-                <span className="ml-2 text-lg">
-                  {reviews[item.product.toString()]?.rating || 0}/5
-                </span>
-              </div>
-              <Textarea
-                className="mt-4 w-full"
-                placeholder="Write your review here..."
-                value={reviews[item.product.toString()]?.comment || ""}
-                onChange={(e) =>
-                  handleReviewChange(
-                    item.product.toString(),
-                    "comment",
-                    e.target.value
-                  )
-                }
-              />
-              <div className="mt-4">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) =>
-                    handleImageUpload(item.product.toString(), e)
-                  }
-                  className="mt-2"
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Upload up to 5 images
-                </p>
-              </div>
-              <Button
-                className="mt-6 bg-black text-white py-3 w-full"
-                onClick={() => handleSubmitReview(item.product.toString())}
-              >
-                Submit Review
-              </Button>
+              <p>
+                <span className="font-semibold">Status:</span> {order.status}
+              </p>
             </div>
           </CardContent>
         </Card>
-      ))}
-    </div>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-6 text-center">
+          Product Reviews
+        </h2>
+        {order.items.map((item) => (
+          <Card key={item.product.toString()} className="mb-8">
+            <CardHeader>
+              <CardTitle className="text-xl">{item.productName}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <p>
+                  <span className="font-semibold">Quantity:</span>{" "}
+                  {item.quantity}
+                </p>
+                <p>
+                  <span className="font-semibold">Price:</span> ₹
+                  {item.price.toFixed(2)}
+                </p>
+              </div>
+              <div className="mt-6">
+                <div className="flex items-center mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <StarIcon
+                      key={star}
+                      filled={
+                        star <=
+                        (hoveredRating[item.product.toString()] ||
+                          reviews[item.product.toString()]?.rating ||
+                          0)
+                      }
+                      onClick={() =>
+                        handleReviewChange(
+                          item.product.toString(),
+                          "rating",
+                          star
+                        )
+                      }
+                      onMouseEnter={() =>
+                        handleStarHover(item.product.toString(), star)
+                      }
+                      onMouseLeave={() =>
+                        handleStarLeave(item.product.toString())
+                      }
+                    />
+                  ))}
+                  <span className="ml-2 text-lg">
+                    {reviews[item.product.toString()]?.rating || 0}/5
+                  </span>
+                </div>
+                <Textarea
+                  className="mt-4 w-full"
+                  placeholder="Write your review here..."
+                  value={reviews[item.product.toString()]?.comment || ""}
+                  onChange={(e) =>
+                    handleReviewChange(
+                      item.product.toString(),
+                      "comment",
+                      e.target.value
+                    )
+                  }
+                />
+                <div className="mt-4">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) =>
+                      handleImageUpload(item.product.toString(), e)
+                    }
+                    className="mt-2"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Upload up to 5 images
+                  </p>
+                </div>
+                <Button
+                  className="mt-6 bg-black text-white py-3 w-full"
+                  onClick={() => handleSubmitReview(item.product.toString())}
+                >
+                  Submit Review
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </Suspense>
   );
 };
 

@@ -135,7 +135,9 @@ export const Editaddress = createAsyncThunk(
   }
 );
 
-const guestID = localStorage.getItem("guestId");
+
+const isClient = typeof window !== "undefined";
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -143,7 +145,7 @@ const authSlice = createSlice({
     user: null,
     loading: false,
     error: null,
-    guestId: guestID || null,
+    guestId: isClient ? localStorage.getItem("guestId") || null : null, // Check if window exists
   },
   reducers: {
     setUser: (state, action) => {

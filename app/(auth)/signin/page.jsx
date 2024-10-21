@@ -153,15 +153,7 @@ const SignIn = () => {
             >
               Forgot your password?
             </Link>
-            <span
-              onClick={() => {
-                localStorage.setItem("guestID", uuid());
-                handleOpen();
-              }}
-              className="text-pink-600 text-sm cursor-pointer hover:text-pink-500"
-            >
-              Continue as guest
-            </span>
+            
           </div>
 
           <div className="mt-6">

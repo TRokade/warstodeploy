@@ -9,17 +9,30 @@ const saveIDToLocalStorage = (ID) => {
   }
 };
 
-const getIDFromLocalStorage = () => {
-  return localStorage.getItem("guestID");
+const getIDFromLocalStorage = (cartitems) => {
+  let guestID = localStorage.getItem("guestID");
+
+  // If no guestID in local storage, use cartitems.user and store it in local storage
+  if (!guestID && cartitems?.user) {
+    guestID = cartitems?.user;
+    console.log(guestID)
+    saveIDToLocalStorage(guestID); // Store cartitems.user in localStorage
+  }
+
+  return guestID;
 };
 
 // Get Cart
 export const getCart = createAsyncThunk(
   "getCart",
-  async (_, { dispatch }) => {
+  async (_, { getState, dispatch }) => {
     try {
-      
-      const ID = getIDFromLocalStorage();
+      // Get the current state
+      const state = getState();
+      const cartitems = state.cart.cartitems;
+
+      const ID = getIDFromLocalStorage(cartitems); // Modified here to use cartitems
+
       const config = {
         ...(ID && { headers: { "X-Guest-ID": ID } }), 
       };
@@ -37,7 +50,7 @@ export const addToCart = createAsyncThunk(
   "addToCart",
   async ({ Cartvalue, ID }, { dispatch }) => {
     try {
-      
+      saveIDToLocalStorage(ID)
       const storedID = getIDFromLocalStorage();
       
       const config = {

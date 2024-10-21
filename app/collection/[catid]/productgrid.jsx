@@ -29,6 +29,7 @@ function ProductCard({ product, loading, params }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const CartData = useSelector((state) => state.cartss?.cartitems);
   const ID = CartData?.user
+  console.log(CartData, "cartobject")
 
   const { currentUser, handleOpen } = useAuth();
 

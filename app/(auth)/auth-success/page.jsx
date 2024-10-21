@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/authSlice";
@@ -21,4 +21,14 @@ const AuthSuccess = () => {
   return <div>Redirecting...</div>;
 };
 
-export default AuthSuccess;
+
+function AuthSuccessWarp() {
+  return (
+    <Suspense>
+      <AuthSuccess />
+    </Suspense>
+  )
+}
+
+
+export default AuthSuccessWarp;

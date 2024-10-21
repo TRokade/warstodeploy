@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
@@ -294,4 +294,13 @@ const OrderReview = () => {
   );
 };
 
-export default OrderReview;
+
+function OrderReviewWarp() {
+  return (
+    <Suspense>
+      <OrderReview />
+    </Suspense>
+  )
+}
+
+export default OrderReviewWarp;

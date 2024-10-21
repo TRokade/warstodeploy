@@ -47,16 +47,17 @@ export const AuthProvider = ({ children }) => {
   } else if (isMobile) {
     buttonSize = "xs";
   }
-
+  const user = localStorage.getItem("token");
+  const guestID = localStorage.getItem("guestID");
+  
   useEffect(() => {
-    const user = localStorage.getItem("token");
-    const guestID = localStorage.getItem("guestID");
+
     if (user) {
       setCurrentUser(user);
     } else if (guestID) {
       setguestUser(guestID);
     }
-  }, []);
+  }, [user]);
 
   const data = [
     {

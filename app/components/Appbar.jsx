@@ -117,6 +117,7 @@ const Appbar = () => {
   }, [location]);
 
 
+
   function logout() {
     localStorage.clear();
     setCurrentUser(null);

@@ -99,7 +99,7 @@ const HowitsWork = () => {
               className="w-96 xxs:w-80"
               alt=""
             />
-            <div className="absolute top-3/4 ms-22 transform -translate-x-1/2 -translate-y-1/2 hover:bg-[#ef4665] hover:text-white bg-white border-2 border-gray-400 rounded-full w-10 h-10 flex items-center justify-center text-xl font-semibold">
+            <div className="absolute top-3/4 left-2 md:left-0 ms-22 transform -translate-x-1/2 -translate-y-1/2 hover:bg-[#ef4665] hover:text-white bg-white border-2 border-gray-400 rounded-full w-10 h-10 flex items-center justify-center text-xl font-semibold">
               4
             </div>
           </div>

@@ -1,16 +1,31 @@
 import { getReviews } from "@/store/reviewsSlice";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import ImageViewer from "@/app/components/ImageViewer";
+import { ReactImageCarouselViewer } from "react-image-carousel-viewer";
 const Reviews = ({ ID, reviewsSectionRef }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getReviews(ID));
   }, [dispatch]);
 
+  const baseUrl = "https://warsto.onrender.com";
+
   const Data = useSelector((state) => state.reviewss.Reviews);
   console.log(Data);
+
+  const newArray = Data?.reviews?.map((item) => ({
+    images: item?.images?.map((image) => ({
+      src: `${baseUrl}${image?.url}`,
+      description: "image-1",
+    })),
+  }));
+
+  const twarr = newArray?.flatMap((item) => item.images) || [];
 
   return (
     <>
@@ -30,12 +45,12 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                 />
                 <div className="font-medium dark:text-white">
                   <p>
-                    {item.user?.name}
+                    {item.user.name}
                     <time
                       dateTime="2014-08-16 19:00"
                       className="block text-sm text-gray-500 dark:text-gray-400"
                     >
-                      {item.user?.name}
+                      {item.user.name}
                     </time>
                   </p>
                 </div>
@@ -86,9 +101,6 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                 >
                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                 </svg>
-                <h3 className="ms-2 text-sm font-semibold text-gray-900 dark:text-white">
-                  {item.comment}
-                </h3>
               </div>
               <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
                 <p>
@@ -96,24 +108,36 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                   <time dateTime="2017-03-03 19:00">{item.createdAt}</time>
                 </p>
               </footer>
-              <p className="mb-2 text-gray-500 dark:text-gray-400">
+              <h3 className="ms-2 mb-2 text-sm font-semibold text-gray-900 dark:text-white">
                 {item.comment}
-              </p>
+              </h3>
 
               <div className="flex gap-1">
-                {item.images.map((img) => {
-                  return (
-                    <img
-                      key={img}
-                      src={`http://localhost:5000/${img.url}`}
-                      alt="Image 1"
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  );
-                })}
-
-                
+                {twarr.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image.src}
+                    alt={image.description || `Review image ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded p-2"
+                    onClick={() => {
+                      setIndex(index);
+                      setIsOpen(true);
+                    }}
+                  />
+                ))}
               </div>
+              {/* <ImageViewer
+                images={item?.images}
+                selectedImageIndex={selectedImageIndex}
+                onClose={() => setSelectedImageIndex(null)}
+              /> */}
+
+              <ReactImageCarouselViewer
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                images={twarr}
+                startIndex={index}
+              />
 
               <aside>
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">

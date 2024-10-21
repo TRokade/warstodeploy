@@ -28,7 +28,7 @@ const WishList = () => {
   return (
     <div className=" px-0 pt-12 lg:pt-8 lg:px-28 ">
       <section className=" text-gray-600 h-full my-24">
-        {wishlistData?.products?.length == 0  ? (
+        {wishlistData?.products?.length == 0 ||  wishlistData == null ? (
           <div className="flex h-screen items-center justify-center">
             <h2 className="text-lg pb-12 text-center">
               No products found in wishlist

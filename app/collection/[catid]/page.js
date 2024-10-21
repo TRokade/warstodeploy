@@ -40,7 +40,6 @@ function ProductPage({ params }) {
   const [open, setOpen] = React.useState(false);
   const [count, setCount] = React.useState(1);
   const [price, setPrice] = React.useState([0, 40000]);
-  
 
   const handleOpen = () => setOpen(!open);
 
@@ -57,7 +56,7 @@ function ProductPage({ params }) {
   };
 
   const category = params.catid;
-  const {FilterdProducts, loading} = useSelector((state) => state.productss);
+  const { FilterdProducts, loading } = useSelector((state) => state.productss);
 
   const {
     configurations,
@@ -222,19 +221,26 @@ function ProductPage({ params }) {
                     filter.filterKey !== "height" &&
                     filter.filterKey !== "length" ? (
                       // For other filters like checkboxes
-                      filter.options.map((option) => (
+                      filter.options.map((option) =>
                         option ? (
-                          <label key={option} className="flex items-center mb-2">
+                          <label
+                            key={option}
+                            className="flex items-center mb-2"
+                          >
                             <input
                               type="checkbox"
                               className="form-checkbox h-5 w-5 accent-[#ef4665]"
-                              onChange={() => handleFilterChange(filter.filterKey, option)}
-                              checked={selectedFilters[filter.filterKey].includes(option)}
+                              onChange={() =>
+                                handleFilterChange(filter.filterKey, option)
+                              }
+                              checked={selectedFilters[
+                                filter.filterKey
+                              ].includes(option)}
                             />
                             <span className="ml-2 text-gray-700">{option}</span>
                           </label>
                         ) : null
-                      ))
+                      )
                     ) : filter.filterKey === "priceRange" ? (
                       // For price range
                       <div className="flex flex-col gap-2 py-2 w-full h-full max-w-md items-start justify-center">
@@ -350,7 +356,12 @@ function ProductPage({ params }) {
           ) : (
             <div className="grid mb-10 px-5 lg:px-10 xl:px-20 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {FilterdProducts?.map((product) => (
-                <ProductCard key={product._id} params={category} loading={loading} product={product} />
+                <ProductCard
+                  key={product._id}
+                  params={category}
+                  loading={loading}
+                  product={product}
+                />
               ))}
             </div>
           )}
@@ -520,7 +531,7 @@ function ProductPage({ params }) {
         </div>
       </Drawer>
 
-      <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
+      <Dialog size="sm" open={open} handler={handleOpen} className=" p-4">
         <DialogHeader className="relative m-0 block">
           <Typography variant="h4" color="blue-gray">
             Need Help Finding Something?
@@ -528,109 +539,103 @@ function ProductPage({ params }) {
           <Typography className="mt-1 font-normal text-gray-600">
             {`Tell us what you're looking for, and we'll assist you!`}
           </Typography>
-          <IconButton
-            size="sm"
-            variant="text"
-            className="!absolute right-3.5 top-3.5"
-            onClick={handleOpen}
-          >
-            Cancel
-          </IconButton>
         </DialogHeader>
         <DialogBody>
-          <form ref={formRef} onSubmit={handleSubmit}>
-            <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-              <div className="lg:col-span-3">
-                <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                  <div className="md:col-span-5">
-                    <label htmlFor="full_name">Full Name</label>
-                    <input
-                      type="text"
-                      name="full_name"
-                      // value={data?.name}
-                      placeholder="Full Name"
-                      id="full_name"
-                      className=" outline-none	border-gray-700	border h-10 mt-1 rounded px-4 w-full"
-                      required
-                    />
-                  </div>
+          <div>
+            <form ref={formRef} onSubmit={handleSubmit}>
+              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                <div className="lg:col-span-3">
+                  <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                    <div className="md:col-span-5">
+                      <label htmlFor="full_name">Full Name</label>
+                      <input
+                        type="text"
+                        name="full_name"
+                        // value={data?.name}
+                        placeholder="Full Name"
+                        id="full_name"
+                        className=" outline-none	border-gray-700	border h-10 mt-1 rounded px-4 w-full"
+                        required
+                      />
+                    </div>
 
-                  <div className="md:col-span-5">
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                      type="text"
-                      name="email"
-                      // value={data?.email}
-                      id="email"
-                      className="border outline-none border-gray-700 h-10 mt-1 rounded px-4 w-full"
-                      placeholder="email@domain.com"
-                      required
-                    />
-                  </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="email">Email Address</label>
+                      <input
+                        type="text"
+                        name="email"
+                        // value={data?.email}
+                        id="email"
+                        className="border outline-none border-gray-700 h-10 mt-1 rounded px-4 w-full"
+                        placeholder="email@domain.com"
+                        required
+                      />
+                    </div>
 
-                  <div className="md:col-span-5">
-                    <label htmlFor="contact">Mobile Number</label>
-                    <input
-                      name="contact"
-                      id="contact"
-                      placeholder="contact"
-                      className=" outline-none	border-gray-700	border h-10 mt-1 rounded px-4 w-full"
-                      required
-                    />
-                  </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="contact">Mobile Number</label>
+                      <input
+                        name="contact"
+                        id="contact"
+                        placeholder="contact"
+                        className=" outline-none	border-gray-700	border h-10 mt-1 rounded px-4 w-full"
+                        required
+                      />
+                    </div>
 
-                  <div className="md:col-span-5">
-                    <label htmlFor="contact">
-                      select the space you wanted the wardrobe / storage
-                    </label>
-                    <select
-                      name="selectedOption"
-                      id="options"
-                      className="border hover:accent-[#ef4655] outline-none border-gray-700 h-10 mt-1 rounded px-4 w-full"
-                      required
-                    >
-                      <option value="">Choose an option</option>
-                      <option
-                        className="caret-[#ef4665] accent-[#ef4665]"
-                        value="Bedroom"
+                    <div className="md:col-span-5">
+                      <label htmlFor="contact">
+                        select the space you wanted the wardrobe / storage
+                      </label>
+                      <select
+                        name="selectedOption"
+                        id="options"
+                        className="border hover:accent-[#ef4655] outline-none border-gray-700 h-10 mt-1 rounded px-4 w-full"
+                        required
                       >
-                        Bedroom
-                      </option>
-                      <option value="Living room">Living room</option>
-                      <option value="Children's room">{`Children's room`}</option>
-                      <option value="Home office">Home office</option>
-                      <option value="Dining room">Dining room</option>
-                      <option value="Bathroom">Bathroom</option>
-                      <option value="Hallway">Hallway</option>
-                      <option value="Outdoor">Outdoor</option>
-                    </select>
-                  </div>
+                        <option value="">Choose an option</option>
+                        <option
+                          className="caret-[#ef4665] accent-[#ef4665]"
+                          value="Bedroom"
+                        >
+                          Bedroom
+                        </option>
+                        <option value="Living room">Living room</option>
+                        <option value="Children's room">{`Children's room`}</option>
+                        <option value="Home office">Home office</option>
+                        <option value="Dining room">Dining room</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="Hallway">Hallway</option>
+                        <option value="Outdoor">Outdoor</option>
+                      </select>
+                    </div>
 
-                  <div className="md:col-span-5">
-                    <label htmlFor="Message">Message</label>
-                    <textarea
-                      name="Message"
-                      id="Message"
-                      placeholder="Message"
-                      className="h-32 pt-2 outline-none	border-gray-700	border mt-1 rounded px-4 w-full"
-                      required
-                    />
-                  </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="Message">Message</label>
+                      <textarea
+                        name="Message"
+                        id="Message"
+                        placeholder="Message"
+                        className="h-32 pt-2 outline-none	border-gray-700	border mt-1 rounded px-4 w-full"
+                        required
+                      />
+                    </div>
 
-                  <div className="md:col-span-5 mt-5 text-right">
-                    <div className="inline-flex items-end">
-                      <button
-                        type="submit"
-                        className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-                      >
-                        Submit
-                      </button>
+                    <div className="md:col-span-5 mt-5 text-right">
+                      <div className="inline-flex items-end">
+                        <button
+                          type="submit"
+                          className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </DialogBody>
       </Dialog>
     </>

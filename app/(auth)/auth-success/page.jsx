@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/authSlice";
@@ -18,11 +18,7 @@ const AuthSuccess = () => {
     }
   }, [router, dispatch]);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div>Redirecting...</div>
-    </Suspense>
-  );
+  return <div>Redirecting...</div>;
 };
 
 export default AuthSuccess;

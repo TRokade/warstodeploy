@@ -1,7 +1,7 @@
+"use client"
 import { getReviews } from "@/store/reviewsSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ImageViewer from "@/app/components/ImageViewer";
 import { ReactImageCarouselViewer } from "react-image-carousel-viewer";
 const Reviews = ({ ID, reviewsSectionRef }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
     dispatch(getReviews(ID));
   }, [dispatch]);
 
-  const baseUrl = "https://warsto.onrender.com";
+  const baseUrl = "https://warsto.onrender.com/";
 
   const Data = useSelector((state) => state.reviewss.Reviews);
   console.log(Data);
@@ -36,7 +36,7 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
       <div>
         {Data?.reviews?.map((item) => {
           return (
-            <div key={item._id} className="mt-5">
+            <div key={item?._id} className="mt-5">
               <div className="flex items-center mb-4">
                 <img
                   className="w-10 h-10 me-4 rounded-full"
@@ -45,12 +45,12 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                 />
                 <div className="font-medium dark:text-white">
                   <p>
-                    {item.user.name}
+                    {item?.user?.name}
                     <time
                       dateTime="2014-08-16 19:00"
                       className="block text-sm text-gray-500 dark:text-gray-400"
                     >
-                      {item.user.name}
+                      {item?.user?.name}
                     </time>
                   </p>
                 </div>
@@ -109,15 +109,15 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
                 </p>
               </footer>
               <h3 className="ms-2 mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                {item.comment}
+                {item?.comment}
               </h3>
 
               <div className="flex gap-1">
-                {twarr.map((image, index) => (
+                {twarr?.map((image, index) => (
                   <img
                     key={index}
-                    src={image.src}
-                    alt={image.description || `Review image ${index + 1}`}
+                    src={image?.src}
+                    alt={image?.description || `Review image ${index + 1}`}
                     className="w-20 h-20 object-cover rounded p-2"
                     onClick={() => {
                       setIndex(index);

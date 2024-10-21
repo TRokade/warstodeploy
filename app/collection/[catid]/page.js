@@ -415,21 +415,25 @@ function ProductPage({ params }) {
                   filter.filterKey !== "height" &&
                   filter.filterKey !== "length" ? (
                     // For other filters like checkboxes
-                    filter.options.map((option) => (
-                      <label key={option} className="flex items-center mb-2">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox h-5 w-5 accent-[#ef4665]"
-                          onChange={() =>
-                            handleFilterChange(filter.filterKey, option)
-                          }
-                          checked={selectedFilters[filter.filterKey].includes(
-                            option
-                          )}
-                        />
-                        <span className="ml-2 text-gray-700">{option}</span>
-                      </label>
-                    ))
+                    filter.options.map((option) =>
+                      option ? (
+                        <label key={option} className="flex items-center mb-2">
+                          <input
+                            type="checkbox"
+                            className="form-checkbox h-5 w-5 accent-[#ef4665]"
+                            onChange={() =>
+                              handleFilterChange(filter.filterKey, option)
+                            }
+                            checked={selectedFilters[filter.filterKey].includes(
+                              option
+                            )}
+                          />
+                          <span className="ml-2 text-gray-700">{option}</span>
+                        </label>
+                      ) : (
+                        ""
+                      )
+                    )
                   ) : filter.filterKey === "priceRange" ? (
                     // For price range
                     <div className="flex flex-col gap-2 py-2 w-full h-full max-w-md items-start justify-center">

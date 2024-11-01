@@ -5,12 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getwishlist } from "@/store/wishlistSlice";
 import WishlistItem from "./WishlistItem";
 import { useMediaQuery } from "@mui/material";
+import Image from "next/image";
+import wishlistEmpty from "../../src/images/empty-wishlist.png";
 
 const WishList = () => {
   const dispatch = useDispatch();
   const wishlistData = useSelector((state) => state.wishlist.products);
 
-  console.log(wishlistData,"wishlistData ")
+  console.log(wishlistData, "wishlistData ");
+  const ID = wishlistData?.user;
 
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1024px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -27,9 +30,10 @@ const WishList = () => {
   }, [dispatch]);
   return (
     <div className=" px-0 pt-12 lg:pt-8 lg:px-28 ">
-      <section className=" text-gray-600 h-full my-24">
-        {wishlistData?.products?.length == 0 ||  wishlistData == null ? (
-          <div className="flex h-screen items-center justify-center">
+      <section className=" text-gray-600 h-[200px] my-24">
+        {wishlistData?.products?.length == 0 || wishlistData == null ? (
+          <div className="flex h-[300px] items-center justify-center">
+            <Image className="w-32" src={wishlistEmpty} alt="" />
             <h2 className="text-lg pb-12 text-center">
               No products found in wishlist
             </h2>
@@ -92,7 +96,11 @@ const WishList = () => {
                           </tr>
                         ) : (
                           wishlistData?.products?.map((item) => (
-                            <WishlistItem key={item?.name} item={item} />
+                            <WishlistItem
+                              ID={ID}
+                              key={item?.name}
+                              item={item}
+                            />
                           ))
                         )}
                       </tbody>

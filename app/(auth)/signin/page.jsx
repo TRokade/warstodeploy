@@ -29,7 +29,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
   const router = useRouter();
-  const { handleOpen } = useAuth();
+  const { handleOpen,setCurrentUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +40,8 @@ const SignIn = () => {
         await mergeGuestData(guestId, userData.id);
       }
       if (signIn.fulfilled.match(result)) {
+        setCurrentUser(result?.payload?.token)
+        handleOpen()
         router.push("/");
       } else if (signIn.rejected.match(result)) {
         setError(result.payload.message || "An error occurred");
@@ -50,7 +52,7 @@ const SignIn = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = "https://warsto.onrender.com/api/auth/google";
+    window.location.href = "http://localhost:5000/api/auth/google";
   };
 
   return (

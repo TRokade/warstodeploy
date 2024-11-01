@@ -38,7 +38,7 @@ const Dummy = () => {
                   </svg>
                 </span>
                 <div>
-                  <h1 className="text-medium md:text-medium md:text-xl font-semibold text-black capitalize dark:text-white">
+                  <h1 className="text-medium  md:text-xl font-semibold text-black capitalize dark:text-white">
                     Quality First
                   </h1>
 

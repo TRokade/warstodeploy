@@ -21,6 +21,7 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    alert(JSON.stringify(formData))
 
     setFormData({
       fname: "",

@@ -55,7 +55,7 @@ const Categoriesselector = ({ filteredProducts, params }) => {
       </div>
     </ToggleButton>,
 
-    check.map((collection) => {
+collectionMenu.map((collection) => {
       return (
         <ToggleButton
           value={collection?.name}

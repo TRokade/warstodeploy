@@ -3,7 +3,7 @@ import { getReviews } from "@/store/reviewsSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactImageCarouselViewer } from "react-image-carousel-viewer";
-const Reviews = ({ ID, reviewsSectionRef }) => {
+const Reviews = ({ ID }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -13,10 +13,9 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
     dispatch(getReviews(ID));
   }, [dispatch]);
 
-  const baseUrl = "https://warsto.onrender.com/";
+  const baseUrl = "http://localhost:5000/";
 
   const Data = useSelector((state) => state.reviewss.Reviews);
-  console.log(Data);
 
   const newArray = Data?.reviews?.map((item) => ({
     images: item?.images?.map((image) => ({
@@ -29,10 +28,10 @@ const Reviews = ({ ID, reviewsSectionRef }) => {
 
   return (
     <>
-      <div className="reviews-section" ref={reviewsSectionRef}>
+      <div className="reviews-section" >
         <hr className="m-5"></hr>
       </div>
-      <h3 className="font-bold">Reviews</h3>
+     {Data?.reviews?.length !== 0 && <h3 className="font-bold">Reviews</h3> } 
       <div>
         {Data?.reviews?.map((item) => {
           return (

@@ -5,9 +5,10 @@ import { Provider } from "react-redux";
 import { useEffect } from "react";
 import Lenis from "@studio-freight/lenis";
 import { useAuth } from "@/context/AuthContext";
+import { useDisclosure } from "@nextui-org/react";
 
 export function Providers({ children }) {
-  const { openCart } = useAuth();
+  const { openCart, reviewopen } = useAuth();
   useEffect(() => {
     let lenis = new Lenis({
       duration: 1.2, // Scrolling speed (you can adjust this)
@@ -15,7 +16,7 @@ export function Providers({ children }) {
       smooth: true,
     });
 
-    if (openCart == true) {
+    if (openCart == true || reviewopen == true) {
       lenis.destroy()
     } else {
       function raf(time) {
@@ -30,7 +31,7 @@ export function Providers({ children }) {
       // Cleanup Lenis on component unmount
       lenis.destroy();
     };
-  }, [openCart]);
+  }, [openCart,reviewopen]);
 
   return <Provider store={store}>{children}</Provider>;
 }

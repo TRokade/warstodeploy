@@ -1,15 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { IoMdHeartEmpty } from "react-icons/io";
-import logo from "../../src/images/logo.png";
 import Warsto from "../../src/images/warsto.png";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { IoMdHeart } from "react-icons/io";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { CiUser } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import HomeIcon from "@mui/icons-material/Home";
 import AppsIcon from "@mui/icons-material/Apps";
@@ -21,14 +16,12 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Avatar,
   Drawer,
   Typography,
   IconButton,
   List,
   ListItem,
   Tooltip,
-  button,
 } from "@material-tailwind/react";
 import { IoCartOutline } from "react-icons/io5";
 import Link from "next/link";
@@ -115,7 +108,6 @@ const Appbar = () => {
       closeCartDrawer();
     }
   }, [location]);
-
 
 
   function logout() {

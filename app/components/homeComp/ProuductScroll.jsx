@@ -21,9 +21,9 @@ const ProductScroll = () => {
       ];
 
   return (
-    <div className="py-20 px-5 mx-auto sm:max-w-xl md:max-w-full  xl:px-32 lg:py-16 ">
+    <div className="py-10 px-5 mx-auto sm:max-w-xl md:max-w-full  xl:px-32 lg:py-16 ">
       <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
-        <h2 className="max-w-lg mb-6 font-sans text-2xl md:text-3xl font-bold leading-none tracking-tight text-gray-900 md:mx-auto">
+        <h2 className="max-w-lg mb-3 md:mb-6 font-sans text-2xl md:text-3xl font-bold leading-none tracking-tight text-gray-900 md:mx-auto">
           
     New Arrivals
 

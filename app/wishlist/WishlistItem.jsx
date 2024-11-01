@@ -10,12 +10,13 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useMediaQuery } from "@mui/material";
 
-const WishlistItem = ({ item }) => {
+const WishlistItem = ({ item, ID }) => {
   const dispatch = useDispatch();
   const navigate = useRouter();
   const { openCartDrawer } = useAuth();
   const id = item?.id;
-  const product = { productId: id, quantity: 1 };
+  console.log(item,"wishlist id")
+  const Cartvalue = { productId: id, quantity: 1 };
 
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1024px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -32,7 +33,7 @@ const WishlistItem = ({ item }) => {
   };
 
   const handleAddtocart = () => {
-    dispatch(addToCart(product));
+    dispatch(addToCart({Cartvalue,ID}));
     dispatch(removeWishlist(id));
     openCartDrawer();
     // navigate.push('/cart')

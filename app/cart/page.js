@@ -8,14 +8,31 @@ import { getCart } from "@/store/cartSlice";
 import { loadUser } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Button,
+} from "@nextui-org/react";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import PlaceIcon from "@mui/icons-material/Place";
+import AddIcon from "@mui/icons-material/Add";
 
 const Cart = () => {
   const route = useRouter();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cartss.cartitems);
-  const { handleOpen, currentUser, guestUser } = useAuth();
 
-  console.log(guestUser, "guest ID llmcecm")
+  const {
+    currentUser,
+    handleOpen,
+    pincodeInput,
+    isPincodeValid,
+    ServiceMessage,
+    handlePincodeChange,
+    handleSavePincode,
+  } = useAuth();
+
   const totalPrice = data?.items?.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity;
   }, 0);
@@ -23,21 +40,20 @@ const Cart = () => {
   console.log(currentUser);
 
   const handleCheckout = () => {
-    if (currentUser == null ) {
+    if (currentUser == null) {
       handleOpen();
     } else {
       route.push("/checkout");
     }
   };
 
-  const ID = data?.user
+  const ID = data?.user;
 
   useEffect(() => {
     dispatch(getCart(ID));
   }, [dispatch]);
 
-
-  console.log(data?.items?.length)
+  console.log(data?.items?.length);
   return (
     <>
       {/* <div className='h-screen flex justify-center items-center'>
@@ -52,6 +68,110 @@ const Cart = () => {
             <h3 className="text-xl my-5">
               Your Cart ({data?.items?.length} item)
             </h3>
+            <div className="my-2">
+              <div className="flex items-center ">
+                <div className="pincode-input-section">
+                  <p className="mb-1 text-sm md:text-base">
+                    Please enter your pincode to check if we deliver to your
+                    area.
+                  </p>
+                  <div className="flex items-center">
+                    <input
+                      type="text"
+                      id="pincode"
+                      value={ServiceMessage.area.pincode}
+                      onChange={handlePincodeChange}
+                      placeholder="Enter pincode"
+                      className="w-full border-2 rounded-md p-2"
+                    />
+                    <Button
+                      className="bg-black ms-2 text-white"
+                      onClick={() => handleSavePincode(pincodeInput)}
+                    >
+                      Save
+                    </Button>
+                  </div>
+
+                  {isPincodeValid ? (
+                    <p className="text-green-500 text-sm md:text-base mt-1">
+                      {ServiceMessage.message}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+
+              {/*               
+              <Popover triggerScaleOnOpen={true} placement="top">
+                <PopoverTrigger>
+                  <button className="mt-4  px-5 my-3  hidden md:block border-3 text-black py-3 rounded-lg">
+                    {ServiceMessage.area.pincode ? (
+                      <>
+                        <div className="flex items-center">
+                          <LocalShippingIcon className="me-2 " />
+                          Delivery to {ServiceMessage.area.pincode}
+                        </div> 
+                        
+                        <p className="me-5">All products are available</p>
+                      </>
+                    ) : (
+                      <>
+                        <PlaceIcon className="me-2 " />
+                        Check delivery and other services availability
+                      </>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="text-left">
+                    <div className="flex items-center ">
+                      {isPincodeValid ? (
+                        <div className="text-green-500 items-center flex">
+                          {ServiceMessage.message}
+                          <Button
+                            className="bg-white items-center flex"
+                            onClick={() => handleSavePincode(pincodeInput)}
+                          >
+                            <AddIcon /> change pincode
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="pincode-input-section">
+                          <h6 className="mb-2 font-bold">
+                            Check Service Availability
+                          </h6>
+                          <p className="mb-1 ">
+                            Please enter your pincode to check if we deliver to
+                            your area.
+                          </p>
+                          <div className="flex items-center">
+                            <input
+                              type="text"
+                              id="pincode"
+                              value={pincodeInput}
+                              onChange={handlePincodeChange}
+                              placeholder="Enter pincode"
+                              className="w-full border-2 rounded-md p-2"
+                            />
+                            <Button
+                              className="bg-black ms-2 text-white"
+                              onClick={() => handleSavePincode(pincodeInput)}
+                            >
+                              Save
+                            </Button>
+                          </div>
+
+                          <p className="text-green-500 mt-1">
+                            {ServiceMessage.message}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover> */}
+            </div>
             <CartProducts ID={ID} data={data} />
           </div>
           <div className="border col-span-2 lg:col-span-1  w-full leading-loose mt-16 border-gray-400 p-5">

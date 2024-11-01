@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 
 const RelatedProductsComp = ({ data }) => {
-  console.log('related product data', data)
   return (
     <>
       {data?.map((item) => {

@@ -9,6 +9,18 @@ import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/app/components/ui/radio-group";
 import { Checkbox } from "@/app/components/ui/checkbox";
+import { Accordion, AccordionItem, useDisclosure } from "@nextui-org/react";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import { format, parseISO } from "date-fns";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Button as NexBtn } from "@nextui-org/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+
 import {
   Card,
   CardContent,
@@ -25,33 +37,131 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import MeasurementSlotSelector from "@/app/components/MeasurementSlotSelector";
+import { useAuth } from "@/context/AuthContext";
+import { clearItem } from "@/store/cartSlice";
+import { Height } from "@mui/icons-material";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  height: 700,
+  overflow: "auto",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+};
 
 const Checkout = () => {
   const { user, loading: userLoading } = useSelector((state) => state.auth);
 
   const [cart, setCart] = useState(null);
-  const [shippingAddress, setShippingAddress] = useState({
-    street: "",
-    city: "",
-    state: "",
-    country: "",
-    zipCode: "",
-  });
-  const [billingAddress, setBillingAddress] = useState({
-    street: "",
-    city: "",
-    state: "",
-    country: "",
-    zipCode: "",
-  });
-  const [sameAsBilling, setSameAsBilling] = useState(true);
+
   const [mobileNumber, setMobileNumber] = useState("");
   const [deliveryOption, setDeliveryOption] = useState("standard");
   const [step, setStep] = useState(1);
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
+  console.log(selectedKeys);
   const [loading, setLoading] = useState(false);
   const [measurementSlot, setMeasurementSlot] = useState(null);
+  console.log(measurementSlot);
   const router = useRouter();
   const dispatch = useDispatch();
+  const {
+    pincodeInput,
+    isPincodeValid,
+    ServiceMessage,
+    handlePincodeChange,
+    handleSavePincode,
+    reviewopen,
+    handlereviewOpen,
+    handlereviewClose,
+  } = useAuth();
+
+
+  const validationSchema = Yup.object({
+    shippingAddress: Yup.object({
+      street: Yup.string().required("Street is required"),
+      city: Yup.string().required("City is required"),
+      state: Yup.string().required("State is required"),
+      country: Yup.string().required("Country is required"),
+      zipCode: Yup.string().required("Zip Code is required"),
+    }),
+
+    billingAddress: Yup.object({
+      street: Yup.string().when("sameAsBilling", {
+        is: false,
+        then: Yup.string().required("Street is required"),
+      }),
+      city: Yup.string().when("sameAsBilling", {
+        is: false,
+        then: Yup.string().required("City is required"),
+      }),
+      state: Yup.string().when("sameAsBilling", {
+        is: false,
+        then: Yup.string().required("State is required"),
+      }),
+      country: Yup.string().when("sameAsBilling", {
+        is: false,
+        then: Yup.string().required("Country is required"),
+      }),
+      zipCode: Yup.string().when("sameAsBilling", {
+        is: false,
+        then: Yup.string().required("Zip Code is required"),
+      }),
+    }),
+    sameAsBilling: Yup.boolean(),
+  });
+
+  const initialData = {
+    shippingAddress: {
+      street: "",
+      city: "",
+      state: "",
+      country: "",
+      zipCode: ServiceMessage.area.pincode,
+    },
+    billingAddress: {
+      street: "",
+      city: "",
+      state: "",
+      country: "",
+      zipCode: ServiceMessage.area.pincode,
+    },
+    sameAsBilling: true,
+  };
+  
+  const savedData = JSON.parse(localStorage.getItem("formData")) || initialData;
+  
+  const formik = useFormik({
+    initialValues: savedData,
+    validationSchema,
+    onSubmit: (values) => {
+      console.log("Form Submitted:", values);
+      setStep(4);
+      handlereviewOpen();
+      localStorage.removeItem("formData"); // Clear data on submit if desired
+    },
+  });
+  
+  
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formik.values));
+  }, [formik.values]);
+
+  useEffect(() => {
+    if (step === 1) {
+      setSelectedKeys(new Set(["1"]));
+    } else if (step === 2) {
+      setSelectedKeys(new Set(["2"]));
+    } else if (step === 3) {
+      setSelectedKeys(new Set(["3"]));
+    } else if (step === 4) {
+      setSelectedKeys(new Set(["4"]));
+    }
+  }, [step]);
 
   const fetchCart = useCallback(async () => {
     try {
@@ -134,16 +244,31 @@ const Checkout = () => {
         price: item.price,
       }));
 
+      if (measurementSlot == null) {
+        alert("Select a mesurment Slot");
+      }
+
+      // alert(JSON.stringify(deliveryOption));
+      // alert(JSON.stringify(formik.values.shippingAddress));
+      // alert(JSON.stringify(formik.values.sameAsBilling));
+      // alert(JSON.stringify(formik.values.shippingAddress));
+      // alert(JSON.stringify(orderItems));
+      // alert(JSON.stringify(mobileNumber));
+
       const response = await api.post("/orders/create-razorpay-order", {
         items: orderItems, // Add this line
-        shippingAddress,
-        billingAddress: sameAsBilling ? shippingAddress : billingAddress,
+        shippingAddress: formik.values.shippingAddress,
+        billingAddress: formik.values.sameAsBilling
+          ? formik.values.shippingAddress
+          : formik.values.billingAddress,
         deliveryOption,
         mobileNumber,
         measurementSlot,
       });
 
       const { orderId, amount, currency, order } = response.data;
+
+      // alert("reached line 259  razorpay!!")
 
       const options = {
         key: "rzp_test_0qKqvkp9NG7OBq",
@@ -159,9 +284,11 @@ const Checkout = () => {
           contact: mobileNumber,
         },
         notes: {
-          shipping_address: JSON.stringify(shippingAddress),
+          shipping_address: JSON.stringify(formik.values.shippingAddress),
           billing_address: JSON.stringify(
-            sameAsBilling ? shippingAddress : billingAddress
+            formik.values.sameAsBilling
+              ? formik.values.shippingAddress
+              : formik.values.billingAddress
           ),
           delivery_option: deliveryOption,
         },
@@ -169,6 +296,7 @@ const Checkout = () => {
           color: "#3399cc",
         },
       };
+        // alert("reached razorpay!!")
 
       const rzp = new window.Razorpay(options);
       rzp.open();
@@ -180,6 +308,7 @@ const Checkout = () => {
 
   const handlePaymentSuccess = async (response) => {
     try {
+      handlereviewClose();
       setLoading(true);
       const { data } = await api.post(
         "/orders/verify-payment",
@@ -195,6 +324,7 @@ const Checkout = () => {
 
       if (data.success) {
         toast.success("Payment successful!");
+        dispatch(clearItem());
         router.push(`/order-confirmation?orderId=${data.order._id}`);
       } else {
         console.error("Payment verification failed:", data.message);
@@ -210,8 +340,35 @@ const Checkout = () => {
     }
   };
 
+  function calculateDeliveryDate(deliveryOption) {
+    const today = new Date();
+    let deliveryDays;
+
+    // Determine the number of days based on the shipping method
+    if (deliveryOption == "standard") {
+      deliveryDays = 27;
+    } else if (deliveryOption == "express") {
+      deliveryDays = 22;
+    } else {
+      return "Invalid shipping method";
+    }
+
+    // Calculate the delivery date
+    const deliveryDate = new Date(today);
+    deliveryDate.setDate(today.getDate() + deliveryDays);
+
+    // Format the date as needed (e.g., "DD/MM/YYYY")
+    const formattedDate = format(deliveryDate, "dd MMMM yyyy");
+
+    return formattedDate;
+  }
+
+  const calculateCartFee = () => {
+    return cart ? cart.total * 0.02 : 0;
+  };
+
   const calculateDeliveryFee = () => {
-    return deliveryOption === "express" ? 100 : 0;
+    return deliveryOption === "express" ? calculateCartFee() : 0;
   };
 
   const calculateTotal = () => {
@@ -223,7 +380,7 @@ const Checkout = () => {
   if (!user) return null;
 
   const renderOrderSummary = () => (
-    <Card>
+    <Card className="sticky top-5 w-full">
       <CardHeader>
         <CardTitle>Order Summary</CardTitle>
       </CardHeader>
@@ -290,13 +447,9 @@ const Checkout = () => {
     </Card>
   );
 
-  const renderAddressForm = (type, address, handler) => (
+  const renderAddressForm = (type, address, isDisabled = false) => (
     <Card>
-      <CardHeader>
-        <CardTitle>
-          {type === "shipping" ? "Shipping" : "Billing"} Address
-        </CardTitle>
-      </CardHeader>
+      <CardHeader></CardHeader>
       <CardContent className="space-y-4">
         {Object.entries(address).map(([key, value]) => (
           <div key={key}>
@@ -306,10 +459,18 @@ const Checkout = () => {
             <Input
               id={`${type}-${key}`}
               type="text"
-              name={key}
-              value={value}
-              onChange={(e) => handler(e, type)}
+              name={`${type}Address.${key}`}
+              value={formik.values[type + "Address"][key]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={isDisabled} // Disable the input if not needed
             />
+            {formik.touched[type + "Address"]?.[key] &&
+            formik.errors[type + "Address"]?.[key] ? (
+              <div className="text-red-600">
+                {formik.errors[type + "Address"][key]}
+              </div>
+            ) : null}
           </div>
         ))}
       </CardContent>
@@ -339,7 +500,7 @@ const Checkout = () => {
   const renderReviewOrder = () => (
     <Card>
       <CardHeader>
-        <CardTitle>Review Your Order</CardTitle>
+        <CardTitle>Review Your Order And Proceed to Payment</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {renderProductSummary()}
@@ -352,13 +513,15 @@ const Checkout = () => {
         )}
         <div>
           <h4 className="font-semibold">Shipping Address</h4>
-          <p>{Object.values(shippingAddress).join(", ")}</p>
+          <p>{Object.values(formik.values.shippingAddress).join(", ")}</p>
         </div>
         <div>
           <h4 className="font-semibold">Billing Address</h4>
           <p>
             {Object.values(
-              sameAsBilling ? shippingAddress : billingAddress
+              formik.values.sameAsBilling
+                ? formik.values.shippingAddress
+                : formik.values.billingAddress
             ).join(", ")}
           </p>
         </div>
@@ -377,59 +540,145 @@ const Checkout = () => {
       </CardContent>
     </Card>
   );
+
   return (
-    <div className="container mx-auto px-4 mt-24 py-8 max-w-6xl">
+    <div className="container  px-0 md:px-24 mt-24 py-8 w-full">
       <div className="flex flex-col-reverse lg:flex-row gap-8">
-        <div className="lg:w-2/3 space-y-8">
-          {step === 1 && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <MapPin className="mr-2" /> Shipping Address
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  {renderAddressForm(
-                    "shipping",
-                    shippingAddress,
-                    handleAddressChange
-                  )}
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="same-as-billing"
-                      checked={sameAsBilling}
-                      onCheckedChange={() => setSameAsBilling(!sameAsBilling)}
-                    />
-                    <Label htmlFor="same-as-billing">
-                      Billing address same as shipping
-                    </Label>
-                  </div>
-                  {!sameAsBilling && (
-                    <div className="mt-4">
-                      <CardTitle className="text-lg mb-4">
-                        Billing Address
-                      </CardTitle>
-                      {renderAddressForm(
-                        "billing",
-                        billingAddress,
-                        handleAddressChange
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-              <div className="flex items-center justify-center">
-                <Button
-                  onClick={() => setStep(2)}
-                  className="flex bg-black px-3 py-2 rounded-md text-white items-center"
+        <Accordion variant="bordered" selectedKeys={selectedKeys}>
+          <AccordionItem
+            hideIndicator={step === 1 ? true : false}
+            disableIndicatorAnimation={true}
+            subtitle={
+              step === 1 ? null : (
+                <div className="mt-4 ms-1">
+                  <p className="font-bold text-black">Delivery by parcel to </p>
+                  <p className="font-thin ">
+                    Mumbai, Maharashtra {ServiceMessage.area.pincode}
+                  </p>
+                  <p className="font-bold mt-2 text-black">Delivery date</p>
+                  <p className="font-thin ">
+                    {calculateDeliveryDate(deliveryOption)}
+                  </p>
+                </div>
+              )
+            }
+            indicator={
+              step === 1 ? null : (
+                <button
+                  className=" text-sm underline text-black"
+                  onClick={isPincodeValid ? () => setStep(1) : null}
                 >
-                  Continue to Delivery <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                  Edit
+                </button>
+              )
+            }
+            className={step === 1 ? null : "py-5"}
+            key="1"
+            isOpen={true}
+            aria-label="Accordion 1"
+            title={
+              step === 1 ? null : (
+                <>
+                  <CheckCircleIcon color="success" /> Delivery Pincode
+                </>
+              )
+            }
+          >
+            <div className="my-2">
+              <div className="flex items-center ">
+                <div className="pincode-input-section">
+                  <h4 className="text-4xl">Delivery Pincode</h4>
+                  <p className="mb-1 text-sm md:text-base">
+                    Please enter your pincode to check if we deliver to your
+                    area.
+                  </p>
+                  <div className="">
+                    <input
+                      type="text"
+                      id="pincode"
+                      value={ServiceMessage.area.pincode}
+                      onChange={handlePincodeChange}
+                      placeholder="Enter pincode"
+                      className="w-full border-2 rounded-md p-2"
+                    />
+                    {isPincodeValid ? (
+                      <p className="text-green-500 text-sm md:text-base mt-1">
+                        {ServiceMessage.message}
+                      </p>
+                    ) : (
+                      <p className="text-red-500 text-sm md:text-base mt-1">
+                        {ServiceMessage.message}
+                      </p>
+                    )}
+
+                    <NexBtn
+                      isDisabled={
+                        ServiceMessage?.area?.pincode == undefined
+                          ? true
+                          : false
+                      }
+                      className="bg-black w-full rounded-md text-white"
+                      onClick={() => setStep(2)}
+                    >
+                      Show delivery options
+                    </NexBtn>
+                  </div>
+                </div>
               </div>
-            </>
-          )}
-          {step === 2 && (
+            </div>
+          </AccordionItem>
+          <AccordionItem
+            hideIndicator={step === 2 ? true : false}
+            disableIndicatorAnimation={true}
+            subtitle={
+              step <= 2 ? null : (
+                <div className="mt-4 ms-1">
+                  <p className="font-bold text-black">Measurement Slot</p>
+                  <p className="font-thin ">
+                    {measurementSlot == null ? (
+                      <p className="font-thin ">Select Measurement Slot</p>
+                    ) : (
+                      <>
+                        <p>
+                          {format(
+                            parseISO(measurementSlot.startTime),
+                            "MMMM d, yyyy"
+                          )}
+                        </p>
+                        <p>{measurementSlot.timeRange}</p>
+                      </>
+                    )}
+                  </p>
+
+                  <p className="font-bold mt-2 text-black">Delivery Option </p>
+                  <p className="font-thin ">{deliveryOption}</p>
+                </div>
+              )
+            }
+            indicator={
+              step === 2 ? null : (
+                <button
+                  className=" text-sm underline text-black"
+                  onClick={isPincodeValid ? () => setStep(2) : null}
+                >
+                  Edit
+                </button>
+              )
+            }
+            // startContent={step > 2 ? <CheckCircleIcon color="success" /> : null}
+            className={step === 2 ? null : "py-5"}
+            key="2"
+            isOpen={true}
+            aria-label="Accordion 1"
+            title={
+              step === 2 ? null : (
+                <>
+                  {step < 2 ? null : <CheckCircleIcon color="success" />}{" "}
+                  Delivery Options and Slot measurement
+                </>
+              )
+            }
+          >
             <>
               <Card>
                 <CardHeader>
@@ -448,7 +697,7 @@ const Checkout = () => {
                       <Label htmlFor="standard" className="flex-grow">
                         <span className="font-semibold">Standard Delivery</span>
                         <p className="text-sm text-gray-500">
-                          Free - Delivered in 5-7 business days
+                          Free - Delivered in 27 days
                         </p>
                       </Label>
                     </div>
@@ -457,7 +706,7 @@ const Checkout = () => {
                       <Label htmlFor="express" className="flex-grow">
                         <span className="font-semibold">Express Delivery</span>
                         <p className="text-sm text-gray-500">
-                          ₹100 - Delivered in 2-3 business days
+                          ₹{calculateCartFee()} - Delivered in 22 business days
                         </p>
                       </Label>
                     </div>
@@ -485,19 +734,142 @@ const Checkout = () => {
               <MeasurementSlotSelector onSlotSelect={handleSlotSelect} />
               <div className="flex justify-between mt-6">
                 <Button onClick={() => setStep(1)} variant="outline">
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Back to Address
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Back to Pincode
                 </Button>
-                <Button onClick={() => setStep(3)}>
-                  Review Order <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                <NexBtn
+                  className="bg-black text-white rounded-md"
+                  isDisabled={measurementSlot == null ? true : false}
+                  onClick={() => setStep(3)}
+                >
+                  Continue to Address <ArrowRight className="ml-2 h-4 w-4" />
+                </NexBtn>
               </div>
             </>
-          )}
-          {step === 3 && (
+          </AccordionItem>
+          <AccordionItem
+            // hideIndicator={true}
+            hideIndicator={step === 3 ? true : false}
+            disableIndicatorAnimation={true}
+            subtitle={
+              step <= 3 ? null : (
+                <div className="mt-4 ms-1">
+                  <p className="font-bold text-black">Address Details</p>
+                  <p className="font-thin ">
+                    {formik.values.shippingAddress == null ? (
+                      <p className="font-thin ">Enter your Address </p>
+                    ) : (
+                      <p className="font-thin ">
+                        {Object.values(formik.values.shippingAddress).join(
+                          ", "
+                        )}
+                      </p>
+                    )}
+                  </p>
+                </div>
+              )
+            }
+            indicator={
+              step === 3 ? null : (
+                <button
+                  className=" text-sm underline text-black"
+                  onClick={isPincodeValid ? () => setStep(3) : null}
+                >
+                  Edit
+                </button>
+              )
+            }
+            className={step === 3 ? null : "py-5"}
+            key="3"
+            aria-label="Accordion 2"
+            title={
+              step === 3 ? null : (
+                <>
+                  {step < 3 ? null : <CheckCircleIcon color="success" />}{" "}
+                  Address Details
+                </>
+              )
+            }
+          >
+            <>
+              <form onSubmit={formik.handleSubmit}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <MapPin className="mr-2" /> Shipping Address
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid gap-4">
+                    {renderAddressForm(
+                      "shipping",
+                      formik.values.shippingAddress
+                    )}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="same-as-billing"
+                        checked={formik.values.sameAsBilling}
+                        onCheckedChange={() =>
+                          formik.setFieldValue(
+                            "sameAsBilling",
+                            !formik.values.sameAsBilling
+                          )
+                        }
+                      />
+                      <Label htmlFor="same-as-billing">
+                        Billing address same as shipping
+                      </Label>
+                    </div>
+                    <div className="mt-4">
+                      {!formik.values.sameAsBilling && (
+                        <div className="mt-4">
+                          <CardTitle className="text-lg mb-4">
+                            Billing Address
+                          </CardTitle>
+                          {renderAddressForm(
+                            "billing",
+                            formik.values.billingAddress,
+                            formik.values.sameAsBilling
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex justify-between mt-6">
+                  <NexBtn
+                    onClick={() => setStep(2)}
+                    className="bg-black text-white rounded-md"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to Delivery
+                  </NexBtn>
+                  <Button type="submit">
+                    Review Order <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </form>
+            </>
+          </AccordionItem>
+          {/* <AccordionItem
+            startContent={step > 4 ? <CheckCircleIcon color="success" /> : null}
+            // hideIndicator={true}
+            disableIndicatorAnimation={true}
+            indicator={
+              <button
+                className=" text-sm underline text-black"
+                onClick={() => setStep(4)}
+              >
+                Edit
+              </button>
+            }
+            className={step === 4 ? null : "py-5"}
+            key="4"
+            aria-label="Accordion 4"
+            title={step === 4 ? null : "Payment"}
+          >
             <>
               {renderReviewOrder()}
               <div className="flex justify-between mt-6">
-                <Button onClick={() => setStep(2)} variant="outline">
+                <Button onClick={() => setStep(3)} variant="outline">
                   <ArrowLeft className="mr-2 h-4 w-4" /> Back to Delivery
                 </Button>
                 <Button onClick={handlePayment} disabled={loading}>
@@ -511,13 +883,53 @@ const Checkout = () => {
                 </Button>
               </div>
             </>
-          )}
-        </div>
-        {step == 3 ? (
-          ""
-        ) : (
-          <div className="lg:w-1/3">{renderOrderSummary()}</div>
-        )}
+          </AccordionItem> */}
+        </Accordion>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={reviewopen}
+          onClose={handlereviewClose}
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
+        >
+          <Fade in={reviewopen}>
+            <Box sx={style} className="overflow-y-auto">
+              <div>
+                {renderReviewOrder()}
+                <div className="flex justify-between p-2 mt-6">
+                  <Button
+                    onClick={() => {
+                      handlereviewClose();
+                      setStep(3);
+                    }}
+                    variant="outline"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to Delivery
+                  </Button>
+                  <Button onClick={handlePayment} disabled={loading}>
+                    {loading ? (
+                      "Processing..."
+                    ) : (
+                      <>
+                        <CreditCard className="mr-2 h-4 w-4" /> Proceed to
+                        Payment
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </Box>
+          </Fade>
+        </Modal>
+
+        <div className="lg:w-1/3">{renderOrderSummary()}</div>
       </div>
     </div>
   );

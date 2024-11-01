@@ -19,6 +19,7 @@ const CartItems = ({ items, ID, cartNum }) => {
   const dispatch = useDispatch();
   const id = items?.product?.id;
   // console.log(id)
+  console.log(items,"cartItems")
 
   const handleRemove = () => {
     dispatch(removeItem(id));

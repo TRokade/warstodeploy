@@ -2,14 +2,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/store/features/materialTailwind/tailwindComp";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {
-  Input,
-  Option,
-  Select,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
-import Box from "@mui/material/Box";
+
 // import Modal from "@mui/material/Modal";
 
 import {
@@ -20,6 +13,17 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import {
+  Drawer,
+  Dialog,
+  Textarea,
+  IconButton,
+  Typography,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+  Spinner,
+} from "@material-tailwind/react";
 
 const SliderBtn = () => {
   const style = {
@@ -36,9 +40,7 @@ const SliderBtn = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
+
 
   const formRef = useRef(null);
 
@@ -70,12 +72,11 @@ const SliderBtn = () => {
       </Button>
       {/* </Link> */}
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalBody>
-                <div className="p-4">
+
+      <Dialog size="sm" open={isOpen} handler={onOpenChange} className=" p-4">
+        
+        <DialogBody>
+        <div className="">
                   <form ref={formRef} onSubmit={handleSubmit}>
                     <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                       <div className="lg:col-span-3">
@@ -144,7 +145,7 @@ const SliderBtn = () => {
                       </div>
                     </div>
                   </form>
-                  <button onClick={onClose} className="absolute  top-2 right-2">
+                  <button onClick={onOpenChange} className="absolute  top-2 right-2">
                     <CancelIcon
                       className="rounded-full"
                       sx={{
@@ -155,11 +156,8 @@ const SliderBtn = () => {
                     />
                   </button>
                 </div>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+        </DialogBody>
+      </Dialog>
     </div>
   );
 };

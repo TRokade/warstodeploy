@@ -25,6 +25,7 @@ import {
   PhoneIcon,
 } from "lucide-react";
 import { mergeGuestData } from "@/utils/api";
+import { useAuth } from "@/context/AuthContext";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -36,6 +37,8 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
   const router = useRouter();
+  const { handleOpen,setCurrentUser } = useAuth();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +52,8 @@ const SignUp = () => {
         signUp({ name, email, password, mobileNumber })
       );
       if (signUp.fulfilled.match(result)) {
+        setCurrentUser(result?.payload?.token)
+        handleOpen()
         router.push("/");
       } else if (signUp.rejected.match(result)) {
         setError(result.payload.message || "An error occurred during sign up");
@@ -60,7 +65,7 @@ const SignUp = () => {
   };
 
   const handleGoogleSignUp = () => {
-    window.location.href = "https://warsto.onrender.com/api/auth/google";
+    window.location.href = "http://localhost:5000/api/auth/google";
   };
 
   return (

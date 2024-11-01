@@ -29,7 +29,7 @@ export const getCart = createAsyncThunk(
     try {
       // Get the current state
       const state = getState();
-      const cartitems = state.cart.cartitems;
+      const cartitems = state.cartitems;
 
       const ID = getIDFromLocalStorage(cartitems); // Modified here to use cartitems
 
@@ -117,9 +117,8 @@ export const clearItem = createAsyncThunk(
   "clearItem",
   async (id, { dispatch }) => {
     try {
-      const response = await api.post("/cart/clear",{
-        headers: { "X-Guest-ID": `44680918-f99a-4a9f-97f2-ca5710d20519` },
-      });
+      const storedID = getIDFromLocalStorage();
+      const response = await api.post("/cart/clear");
       return response.data;
     } catch (error) {
       console.error("Error setting user:", error);
@@ -201,7 +200,7 @@ const cartSlice = createSlice({
       })
       .addCase(clearItem.fulfilled, (state, action) => {
         state.loading = false;
-        state.cartitems.items = action.payload.items;
+        state.cartitems = [];
       })
       .addCase(clearItem.rejected, (state, action) => {
         state.loading = false;

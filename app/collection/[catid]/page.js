@@ -181,8 +181,8 @@ function ProductPage({ params }) {
     <>
       <div className="mx-auto">
         {/* Banner Section */}
-        <div className="h-[100px] md:h-[300px] mt-24 bg-[url('https://mebel-dlya-vseh.ru/d/garderobnaya-eulaliya.jpg')] flex items-center justify-center">
-          <h1 className="text-3xl md:text-5xl text-[#ffffff] font-bold">
+        <div className="h-[200px] md:h-[300px] relative  bg-[url('https://mebel-dlya-vseh.ru/d/garderobnaya-eulaliya.jpg')] flex items-end justify-center">
+          <h1 className="text-3xl absolute bottom-10 md:bottom-20 md:text-5xl text-[#ffffff] font-bold">
             Product List
           </h1>
         </div>
@@ -198,7 +198,7 @@ function ProductPage({ params }) {
                   ? "top-[100px] lg:top-[114px]"
                   : "top-[70px]"
                 : "top-0"
-            } z-10 w-full px-5 border-b py-5 xl:px-20 bg-white transition-transform duration-300 ease-in-out`}
+            } z-10 w-full px-5 border-b py-2 lg:py-5 xl:px-20 bg-white transition-transform duration-300 ease-in-out`}
           >
             <div className="hidden md:flex justify-around">
               {filterOptions.map((filter, index) => (
@@ -349,7 +349,7 @@ function ProductPage({ params }) {
 
           {/* Product Cards Section */}
 
-          {FilterdProducts.length == 0 && loading ? (
+          {FilterdProducts.length == 0  ? (
             <div className="flex justify-center h-96 my-5 items-center">
               <Image className="w-64" src={notFoundimg} />
             </div>
@@ -400,7 +400,7 @@ function ProductPage({ params }) {
       >
         <div className="overflow-y-auto">
           <div className="h-screen">
-            <Accordion>
+            <Accordion disableIndicatorAnimation={true}>
               {filterOptions.map((filter, index) => (
                 <AccordionItem
                   key={filter.filterKey}

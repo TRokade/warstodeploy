@@ -36,9 +36,9 @@ const Collections = React.memo(() => {
   }, [fetchCategories]);
 
   return (
-    <div className="container mx-auto px-0 pt-28 pb-10">
+    <div className="container mx-auto px-0  pb-10">
       <BannerSection />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0 lg:gap-8">
+      <div className="grid grid-cols-1 px-0 lg:px-20  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0 xl:gap-8">
         {data.map((collection) => (
           <div
             key={collection?.name}
@@ -52,7 +52,7 @@ const Collections = React.memo(() => {
                     // src={img}
                     src="https://www.dtalemodern.com/media/catalog/product/cache/1/small_image/416x/9df78eab33525d08d6e5fb8d27136e95/f/o/foster_single_seater_charlotte_3.jpg"
                     alt={img}
-                    className="w-full h-[200px] lg:h-full object-cover"
+                    className="w-full  lg:h-full object-cover"
                     loading="lazy"
                   />
                 ))}

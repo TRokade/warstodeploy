@@ -18,6 +18,7 @@ export default function MeasurementSlotSelector({ onSlotSelect }) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log(selectedSlot)
 
   useEffect(() => {
     fetchAvailableSlots();
@@ -99,7 +100,7 @@ export default function MeasurementSlotSelector({ onSlotSelect }) {
     );
 
   return (
-    <Card className="mt-6">
+    <Card className="mt-6 rounded-t-lg">
       <CardHeader>
         <CardTitle className="flex items-center text-2xl">
           <Calendar className="mr-2" /> Select Measurement Slot

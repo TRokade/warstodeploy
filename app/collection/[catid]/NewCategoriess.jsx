@@ -60,7 +60,7 @@ const NewCategoriess = () => {
           src="https://fiesta-mebel.ru/assets/images/resources/91267/garderob-pax-ikea-kombinaciya-s-10-yaschikami-250x58x236-sm-belyy-1.jpg"
           alt=""
         />
-        <p className="ms-2 capitalize">All_products</p>
+        <p className="ms-2 capitalize">{isMobile? "All_products" : "All products"}</p>
       </div>
     </ToggleButton>,
 

@@ -81,7 +81,7 @@ const HeroSlider = () => {
           layers={[
             {
               image:
-                "https://telkitchens.in/srckchn/uploads/2022/03/12-scaled.jpg",
+                "http://warsto.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fnewslider3.37f0a91e.jpg&w=3840&q=75",
               speed: -20,
             },
           ]}
@@ -106,7 +106,7 @@ const HeroSlider = () => {
           layers={[
             {
               image:
-                "https://royal-room.com/upload/iblock/329/32968a52c65806792e01e467122f2ed9.jpg",
+                "http://warsto.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fnewslider1.fc066075.png&w=3840&q=75",
               speed: -20,
             },
           ]}
@@ -130,7 +130,7 @@ const HeroSlider = () => {
           layers={[
             {
               image:
-                "https://i.pinimg.com/originals/57/b2/4b/57b24b1aabc5fc8d0f6f66c58ee0c313.jpg",
+                "http://warsto.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fnewslider2.d85c5ecc.jpg&w=3840&q=75",
               speed: -20,
             },
           ]}
